@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
 
 @section('content')
-ciao
+Ciao. Questa è la pagina home del backoffice!
 @endsection
