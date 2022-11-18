@@ -57,7 +57,7 @@ class PostController extends HomeController
             $post->slug = $slug;
             $post->save();
 
-            return redirect()->route('admin.posts.',show $post->id);
+            return redirect()->route('admin.posts.show', $post->id);
 
     }
 
