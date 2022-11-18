@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -26,7 +27,8 @@ class PostController extends HomeController
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -37,25 +39,25 @@ class PostController extends HomeController
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title'=>'required|min:5|max:255',
-            'content'=>'required'
-        ]);
+        $this->validatePost($request);
 
         $form_data = $request->all();
         $post = new Post();
         $post->fill($form_data);
-        $slug = Str::slug($post->title);
-        $slug_base = $slug;
-        $counter = 1;
-            $existingPost = Post::where('slug', $slug)->first();
-            while($existingPost){
-                $slug = $slug_base . '_' . $counter;
-                $existingPost = Post::where('slug', $slug)->first();
-                $counter++;
-            }
-            $post->slug = $slug;
-            $post->save();
+
+        // $slug = Str::slug($post->title);
+        // $slug_base = $slug;
+        // $counter = 1;
+        //     $existingPost = Post::where('slug', $slug)->first();
+        //     while($existingPost){
+        //         $slug = $slug_base . '_' . $counter;
+        //         $existingPost = Post::where('slug', $slug)->first();
+        //         $counter++;
+        //     }
+
+        $slug = $this->getSlug($post->title);
+        $post->slug = $slug;
+        $post->save();
 
             return redirect()->route('admin.posts.show', $post->id);
 
@@ -92,11 +94,8 @@ class PostController extends HomeController
      */
     public function update(Request $request, Post $post)
     {
-        $request->validate([
-            'title'=>'required|min:5|max:255',
-            'content'=>'required'
-        ]);
 
+        $this->validatePost($request);
         $form_data = $request->all();
         if($post->title != $form_data['title']){
             $slug= $this->getSlug($form_data['title']);
@@ -132,6 +131,19 @@ class PostController extends HomeController
             $existingPost = Post::where('slug', $slug)->first();
         }
         return $slug;
+    }
+
+    private function validatePost(Request $request){
+        $request->validate([
+            'title' => 'required|min:5|max:255',
+            'content' => 'required',
+            'category_id' => 'nullable|exists:categories,id'
+        ], [
+            'required' => ':attribute is mandatory',
+            'min' => ':attribute should be at least :min chars',
+            'max' => ':attribute should have max length of :max chars',
+            'category_id.exists' => 'Category doesn\'t exists anymore :('
+        ]);
     }
 
 }

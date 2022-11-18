@@ -17,6 +17,8 @@ Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
+
+
 Route::middleware('auth')
     ->namespace('Admin')
     ->name('admin.')
@@ -27,5 +29,5 @@ Route::middleware('auth')
     });
 
 Route::get("{any?}", function(){
-    return view("guests.home");
+    return redirect()->route('index');
 })->where("any", ".*");
