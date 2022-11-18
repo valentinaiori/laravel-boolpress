@@ -36,10 +36,20 @@
     </select>
 </div>
 
+<!-- /categories -->
 
+<!--tags -->
 
+<div>
+    <label>Tags:</label>
+    @foreach ($tags as $tag ){
+        <label>{{$tag->name}}</label>
+        <input type="checkbox" name="tags[]" value="{{$tag->id}}">
+    }
+    @endforeach
+</div>
 
-
+<!--/tags -->
 
 
     <div @error('content') class="is-invalid" @enderror>

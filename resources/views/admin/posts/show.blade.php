@@ -5,6 +5,13 @@
 <h1>{{ $post->title }}</h1>
 <p>{{ $post->content }}</p>
 
+<div class="tags">
+    TAGS:
+    @foreach ($post->$tags as $tag)
+        <span>{{$tag->name}}</span>
+    @endforeach
+</div>
+
 <div class="row mb-5">
 
     <div class="col-12">

@@ -20,6 +20,7 @@
                 <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
+
     <div @error('content') class="is-invalid" @enderror>
         <label for="content">Contenuto:</label>
         <textarea name="content" required cols="30" rows="10">{{old('content', $post->content)}}</textarea>
@@ -27,6 +28,29 @@
                 <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
+
+    <!-- tags -->
+
+    @if($errors->any())
+    <div class="row">
+        <div class="col-12 bg-danger">
+            Ci sono errori...
+        </div>
+    </div>
+    @else
+    <div>
+        <label>TAGS:</label>
+        @foreach ($tags as $tag )
+        <label>{{ $tag->name}}</label>
+        <input {{$post->tags()->contains($tag) ? 'checked' : ""}}
+        type="checkbox" name="tags[]" value="{{$tag->id}}">
+        @endforeach
+    </div>
+
+ <!-- /tags -->
+
+
+
     <div>
         <input type="submit" value="AGGIORNA!">
     </div>

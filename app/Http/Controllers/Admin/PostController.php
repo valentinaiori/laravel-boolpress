@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Post;
+use App\Tag;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +29,8 @@ class PostController extends HomeController
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -59,6 +61,11 @@ class PostController extends HomeController
         $post->slug = $slug;
         $post->save();
 
+
+        if(array_key_exists('tags', $form_data)){
+            $post->tags()->sync($form_data['tags']);
+        }
+
             return redirect()->route('admin.posts.show', $post->id);
 
     }
@@ -82,7 +89,9 @@ class PostController extends HomeController
      */
     public function edit(Post $post)
     {
-        return view ('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view ('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -97,10 +106,16 @@ class PostController extends HomeController
 
         $this->validatePost($request);
         $form_data = $request->all();
+
         if($post->title != $form_data['title']){
             $slug= $this->getSlug($form_data['title']);
             $form_data['slug']=$slug;
+        }
 
+        if(array_key_exists('tags', $form_data)){
+            $post->tags()->sync($form_data['tags']);
+        } else{
+            $post->tags()->sync([]);
         }
 
         $post->update($form_data);
@@ -116,6 +131,8 @@ class PostController extends HomeController
     public function destroy(Post $post)
     {
         $post->delete();
+        $post->tags()->sync([]);
+
         return redirect()->route('admin.posts.index');
     }
 
@@ -137,7 +154,8 @@ class PostController extends HomeController
         $request->validate([
             'title' => 'required|min:5|max:255',
             'content' => 'required',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'tags'=>'exists:tags, id'
         ], [
             'required' => ':attribute is mandatory',
             'min' => ':attribute should be at least :min chars',
