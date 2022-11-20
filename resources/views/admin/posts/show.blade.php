@@ -7,7 +7,7 @@
 
 <div class="tags">
     TAGS:
-    @foreach ($post->$tags as $tag)
+    @foreach ($post->tags as $tag)
         <span>{{$tag->name}}</span>
     @endforeach
 </div>

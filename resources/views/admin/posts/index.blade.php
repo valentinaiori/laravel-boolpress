@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="row">
+    <h1>LISTA POSTS:</h1>
+
     @foreach ($posts as $post )
         <div class="col-12">
             <ul>

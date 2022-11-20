@@ -42,10 +42,10 @@
 
 <div>
     <label>Tags:</label>
-    @foreach ($tags as $tag ){
+    @foreach ($tags as $tag)
         <label>{{$tag->name}}</label>
         <input type="checkbox" name="tags[]" value="{{$tag->id}}">
-    }
+
     @endforeach
 </div>
 

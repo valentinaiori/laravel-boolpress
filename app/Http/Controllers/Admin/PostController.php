@@ -57,6 +57,7 @@ class PostController extends HomeController
         //         $counter++;
         //     }
 
+
         $slug = $this->getSlug($post->title);
         $post->slug = $slug;
         $post->save();
@@ -130,9 +131,8 @@ class PostController extends HomeController
      */
     public function destroy(Post $post)
     {
-        $post->delete();
         $post->tags()->sync([]);
-
+        $post->delete();
         return redirect()->route('admin.posts.index');
     }
 
@@ -155,7 +155,7 @@ class PostController extends HomeController
             'title' => 'required|min:5|max:255',
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id',
-            'tags'=>'exists:tags, id'
+            'tags'=>'exists:tags,id'
         ], [
             'required' => ':attribute is mandatory',
             'min' => ':attribute should be at least :min chars',

@@ -31,7 +31,7 @@
 
     <!-- tags -->
 
-    @if($errors->any())
+    @if ($errors->any())
     <div class="row">
         <div class="col-12 bg-danger">
             Ci sono errori...
@@ -42,11 +42,11 @@
         <label>TAGS:</label>
         @foreach ($tags as $tag )
         <label>{{ $tag->name}}</label>
-        <input {{$post->tags()->contains($tag) ? 'checked' : ""}}
+        <input {{$post->tags->contains($tag) ? 'checked' : ""}}
         type="checkbox" name="tags[]" value="{{$tag->id}}">
         @endforeach
     </div>
-
+@endif
  <!-- /tags -->
 
 
