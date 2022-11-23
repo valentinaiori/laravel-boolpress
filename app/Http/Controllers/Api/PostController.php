@@ -60,11 +60,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
+        $post = Post::find($id);
+
         $data = [
             'results' =>$post,
-            'success'=>true
+            'success'=>isset($post),
         ];
         return response()->json($data);
     }

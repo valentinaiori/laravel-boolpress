@@ -49,10 +49,12 @@ export default {
 
         showPost(id) {
             console.log('hai cliccato il post con id', id);
+
         },
 
         showDetails(id) {
             console.log(id);
+            this.$router.push('/posts/' +id)
         }
     },
 
