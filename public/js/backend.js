@@ -37361,7 +37361,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\esercizi_boolean_backend\laravel-api\resources\js\backend.js */"./resources/js/backend.js");
+module.exports = __webpack_require__(/*! C:\esercizi_boolean_backend\laravel-boolpress\resources\js\backend.js */"./resources/js/backend.js");
 
 
 /***/ })
